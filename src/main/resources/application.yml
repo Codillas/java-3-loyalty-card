@@ -1,3 +1,5 @@
 spring:
   application:
     name: java-3-loyalty-card
+  jackson:
+    property-naming-strategy: SNAKE_CASE
