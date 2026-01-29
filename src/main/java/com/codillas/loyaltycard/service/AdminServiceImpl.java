@@ -1,14 +1,20 @@
 package com.codillas.loyaltycard.service;
 
+import com.codillas.loyaltycard.exception.AdminAlreadyExistsException;
+import com.codillas.loyaltycard.exception.AdminNotFoundException;
 import com.codillas.loyaltycard.service.model.Admin;
 import com.codillas.loyaltycard.service.model.Status;
 import com.codillas.loyaltycard.service.model.Type;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -16,6 +22,17 @@ public class AdminServiceImpl implements AdminService {
 
   @Override
   public Admin createAdmin(String name, String phoneNumber, String email, String password) {
+
+    log.info("Attempting to create an admin with email {}", email);
+
+    Optional<Admin> optionalAdmin = adminHashMap.values().stream()
+            .filter(admin -> admin.getEmail().equals(email))
+            .findFirst();
+
+    if (optionalAdmin.isPresent()){
+      throw new AdminAlreadyExistsException(email);
+    }
+
     Admin admin = new Admin();
     admin.setName(name);
     admin.setEmail(email);
@@ -32,6 +49,8 @@ public class AdminServiceImpl implements AdminService {
 
     adminHashMap.put(admin.getId(), admin);
 
+    log.info("Succsessfully created an admin with email {}", email);
+
     return admin;
   }
 
@@ -43,7 +62,13 @@ public class AdminServiceImpl implements AdminService {
 
   @Override
   public Admin getAdmin(UUID adminId) {
-    return adminHashMap.get(adminId);
+    Admin admin = adminHashMap.get(adminId);
+
+    if (admin != null) {
+      return admin;
+    } else {
+      throw new AdminNotFoundException(adminId);
+    }
   }
 
   @Override
