@@ -6,9 +6,6 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
-#  liquibase:
-#    change-log: classpath:/db/changelog/db.changelog-master.yaml
-
   datasource:
     url: jdbc:postgresql://${DATABASE_HOST:127.0.0.1}:${DATABASE_PORT:5432}/${DATABASE_NAME:loyalty_card}
     username: ${DATABASE_USER:postgres}
