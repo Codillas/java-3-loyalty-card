@@ -1,13 +1,17 @@
 package com.codillas.loyaltycard.controller;
 
 import com.codillas.loyaltycard.controller.dto.AdminDto;
+import com.codillas.loyaltycard.controller.dto.ErrorDto;
 import com.codillas.loyaltycard.controller.dto.SignUpRequestDto;
+import com.codillas.loyaltycard.exception.AdminAlreadyExistsException;
+import com.codillas.loyaltycard.exception.AdminNotFoundException;
 import com.codillas.loyaltycard.mapper.AdminMapper;
 import com.codillas.loyaltycard.service.AdminService;
 import com.codillas.loyaltycard.service.model.Admin;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +39,7 @@ public class AdminController {
 
     AdminDto adminDto = adminMapper.toDto(admin);
 
-    return ResponseEntity.ok().body(adminDto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(adminDto);
   }
 
   @GetMapping("/admins")
