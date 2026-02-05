@@ -906,14 +906,14 @@ components:
       type: object
       required:
         - name
-        - phoneNumber
+        - phone_number
         - email
         - password
       properties:
         name:
           type: string
           example: Vasya Pupkin
-        phoneNumber:
+        phone_number:
           type: string
           example: +491756489871
         email:
