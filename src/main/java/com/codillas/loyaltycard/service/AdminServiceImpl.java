@@ -2,6 +2,9 @@ package com.codillas.loyaltycard.service;
 
 import com.codillas.loyaltycard.exception.AdminAlreadyExistsException;
 import com.codillas.loyaltycard.exception.AdminNotFoundException;
+import com.codillas.loyaltycard.mapper.AdminMapper;
+import com.codillas.loyaltycard.repository.AdminRepository;
+import com.codillas.loyaltycard.repository.entity.AdminEntity;
 import com.codillas.loyaltycard.service.model.Admin;
 import com.codillas.loyaltycard.service.model.Status;
 import com.codillas.loyaltycard.service.model.Type;
@@ -12,11 +15,21 @@ import java.util.Optional;
 import java.util.UUID;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class AdminServiceImpl implements AdminService {
+
+  private AdminRepository adminRepository;
+  private AdminMapper adminMapper;
+
+  @Autowired
+  public AdminServiceImpl(AdminRepository adminRepository,  AdminMapper adminMapper) {
+    this.adminRepository = adminRepository;
+    this.adminMapper = adminMapper;
+  }
 
   private HashMap<UUID, Admin> adminHashMap = new HashMap<>();
 
@@ -25,33 +38,31 @@ public class AdminServiceImpl implements AdminService {
 
     log.info("Attempting to create an admin with email {}", email);
 
-    Optional<Admin> optionalAdmin = adminHashMap.values().stream()
-            .filter(admin -> admin.getEmail().equals(email))
-            .findFirst();
+    Optional<AdminEntity> optionalAdmin = adminRepository.findByEmail(email);
+
 
     if (optionalAdmin.isPresent()){
       throw new AdminAlreadyExistsException(email);
     }
 
-    Admin admin = new Admin();
-    admin.setName(name);
-    admin.setEmail(email);
-    admin.setPhoneNumber(phoneNumber);
-    admin.setPassword(password);
+    AdminEntity adminEntity = new AdminEntity();
+    adminEntity.setName(name);
+    adminEntity.setEmail(email);
+    adminEntity.setPhoneNumber(phoneNumber);
+    adminEntity.setPassword(password);
 
     Instant now = Instant.now();
 
-    admin.setCreatedAt(now);
-    admin.setUpdatedAt(now);
-    admin.setType(Type.ADMIN);
-    admin.setStatus(Status.ACTIVE);
-    admin.setId(UUID.randomUUID());
+    adminEntity.setCreatedAt(now);
+    adminEntity.setUpdatedAt(now);
+    adminEntity.setType(com.codillas.loyaltycard.repository.entity.Type.ADMIN);
+    adminEntity.setStatus(com.codillas.loyaltycard.repository.entity.Status.ACTIVE);
 
-    adminHashMap.put(admin.getId(), admin);
+    AdminEntity savedAdminEntity = adminRepository.save(adminEntity);
 
-    log.info("Succsessfully created an admin with email {}", email);
+    log.info("Successfully created an admin with email {}", email);
 
-    return admin;
+    return adminMapper.toDomain(savedAdminEntity);
   }
 
   @Override

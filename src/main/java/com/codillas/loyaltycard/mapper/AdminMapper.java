@@ -1,6 +1,7 @@
 package com.codillas.loyaltycard.mapper;
 
 import com.codillas.loyaltycard.controller.dto.AdminDto;
+import com.codillas.loyaltycard.repository.entity.AdminEntity;
 import com.codillas.loyaltycard.service.model.Admin;
 import com.codillas.loyaltycard.service.model.Status;
 import com.codillas.loyaltycard.service.model.Type;
@@ -24,6 +25,21 @@ public class AdminMapper {
     return admin;
   }
 
+  public Admin toDomain(AdminEntity entity) {
+
+    Admin admin = new Admin();
+    admin.setId(entity.getId());
+    admin.setName(entity.getName());
+    admin.setEmail(entity.getEmail());
+    admin.setCreatedAt(entity.getCreatedAt());
+    admin.setUpdatedAt(entity.getUpdatedAt());
+    admin.setPhoneNumber(entity.getPhoneNumber());
+    admin.setType(Type.valueOf(entity.getType().name()));
+    admin.setStatus(Status.valueOf(entity.getStatus().name()));
+
+    return admin;
+  }
+
   public AdminDto toDto(Admin admin) {
 
     AdminDto dto = new AdminDto();
@@ -37,5 +53,21 @@ public class AdminMapper {
     dto.setStatus(com.codillas.loyaltycard.controller.dto.Status.valueOf(admin.getStatus().name()));
 
     return dto;
+  }
+
+  public AdminEntity toEntity(Admin admin) {
+
+    AdminEntity entity = new AdminEntity();
+    entity.setId(admin.getId());
+    entity.setName(admin.getName());
+    entity.setEmail(admin.getEmail());
+    entity.setCreatedAt(admin.getCreatedAt());
+    entity.setUpdatedAt(admin.getUpdatedAt());
+    entity.setPhoneNumber(admin.getPhoneNumber());
+    entity.setType(com.codillas.loyaltycard.repository.entity.Type.valueOf(admin.getType().name()));
+    entity.setStatus(
+        com.codillas.loyaltycard.repository.entity.Status.valueOf(admin.getStatus().name()));
+
+    return entity;
   }
 }
