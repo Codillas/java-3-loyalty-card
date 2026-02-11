@@ -31,9 +31,11 @@ public class AdminEntity {
     private String password;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @Column(name = "created_at")
