@@ -7,6 +7,9 @@ info:
 servers:
   - url: http://localhost:8080
 
+security:
+  - bearerAuth: []
+
 tags:
   - name: Auth (for Customer)
     description: Auth endpoints for customers.
@@ -26,6 +29,7 @@ paths:
   /login:
     post:
       summary: Customer login endpoint.
+      security: []
       tags:
         - Auth (for Customer)
       requestBody:
@@ -62,6 +66,7 @@ paths:
   /sign-up:
     post:
       summary: Customer sign-up endpoint.
+      security: []
       tags:
         - Auth (for Customer)
       requestBody:
@@ -93,6 +98,7 @@ paths:
   /admins/login:
     post:
       summary: Admin login endpoint.
+      security: []
       tags:
         - Auth (for Admins)
       requestBody:
@@ -131,7 +137,6 @@ paths:
   /admins:
     post:
       summary: Create admin.
-
       tags:
         - Admins
 
@@ -403,6 +408,7 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Update customer by ID.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -451,6 +457,7 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Activate customer.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -494,6 +501,7 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Block customer.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -539,6 +547,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Create a new transaction.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Transactions
@@ -586,6 +595,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Get all transactions for a specific card.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Transactions
@@ -632,6 +642,7 @@ paths:
         - $ref: '#/components/parameters/TransactionId'
 
       summary: Get a specific transaction for a specific card.
+      security: [ { bearerAuth: [ ] } ]
       tags:
         - Transactions
       responses:
@@ -667,6 +678,7 @@ paths:
         - $ref: '#/components/parameters/TransactionId'
 
       summary: Cancel transaction.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Transactions
@@ -711,6 +723,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Get card by ID.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Cards
@@ -754,6 +767,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Activate Card.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Cards
@@ -798,6 +812,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Block Card.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Cards
@@ -834,7 +849,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   # === PARAMS ===
   parameters:
     # === CARD ===

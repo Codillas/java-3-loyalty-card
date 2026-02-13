@@ -3,32 +3,33 @@ package com.codillas.loyaltycard.controller;
 import com.codillas.loyaltycard.controller.dto.SignUpRequestDto;
 import com.codillas.loyaltycard.controller.dto.TokenResponseDto;
 import com.codillas.loyaltycard.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codillas.loyaltycard.service.TokenService;
+import com.codillas.loyaltycard.service.model.Customer;
+import com.codillas.loyaltycard.service.model.Type;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class AuthController {
 
     private final CustomerService customerService;
-
-    @Autowired
-    public AuthController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+    private final TokenService tokenService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/sign-up")
     public ResponseEntity<TokenResponseDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
-        customerService.createCustomer(
+        Customer customer = customerService.createCustomer(
                 signUpRequestDto.getName(),
                 signUpRequestDto.getPhoneNumber(),
                 signUpRequestDto.getEmail(),
-                signUpRequestDto.getPassword());
+                bCryptPasswordEncoder.encode(signUpRequestDto.getPassword()));
 
-        // Placeholder token generation as no auth provider is integrated yet
-        String token = "placeholder-jwt-token";
+        String token = tokenService.createToken(customer.getId().toString(), Type.CUSTOMER);
 
         return ResponseEntity.ok(new TokenResponseDto(token));
     }
