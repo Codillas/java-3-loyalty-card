@@ -131,6 +131,7 @@ paths:
   /admins:
     post:
       summary: Create admin.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Admins
@@ -169,6 +170,7 @@ paths:
 
     get:
       summary: Get all admins.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Admins
@@ -201,6 +203,7 @@ paths:
         - $ref: '#/components/parameters/AdminId'
 
       summary: Get admin.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Admins
@@ -243,6 +246,7 @@ paths:
         - $ref: '#/components/parameters/AdminId'
 
       summary: Activate Admin.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Admins
@@ -287,6 +291,7 @@ paths:
         - $ref: '#/components/parameters/AdminId'
 
       summary: Block Admin.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Admins
@@ -329,6 +334,7 @@ paths:
     get:
 
       summary: Get all customers.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -362,6 +368,7 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Get customer by ID.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -403,6 +410,7 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Update customer by ID.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -451,6 +459,7 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Activate customer.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -494,6 +503,7 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Block customer.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -539,6 +549,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Create a new transaction.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Transactions
@@ -586,6 +597,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Get all transactions for a specific card.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Transactions
@@ -632,6 +644,7 @@ paths:
         - $ref: '#/components/parameters/TransactionId'
 
       summary: Get a specific transaction for a specific card.
+      security: [ { bearerAuth: [ ] } ]
       tags:
         - Transactions
       responses:
@@ -667,6 +680,7 @@ paths:
         - $ref: '#/components/parameters/TransactionId'
 
       summary: Cancel transaction.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Transactions
@@ -711,6 +725,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Get card by ID.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Cards
@@ -754,6 +769,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Activate Card.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Cards
@@ -798,6 +814,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Block Card.
+      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Cards
@@ -834,7 +851,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   # === PARAMS ===
   parameters:
     # === CARD ===
