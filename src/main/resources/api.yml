@@ -7,6 +7,9 @@ info:
 servers:
   - url: http://localhost:8080
 
+security:
+  - bearerAuth: []
+
 tags:
   - name: Auth (for Customer)
     description: Auth endpoints for customers.
@@ -26,6 +29,7 @@ paths:
   /login:
     post:
       summary: Customer login endpoint.
+      security: []
       tags:
         - Auth (for Customer)
       requestBody:
@@ -62,6 +66,7 @@ paths:
   /sign-up:
     post:
       summary: Customer sign-up endpoint.
+      security: []
       tags:
         - Auth (for Customer)
       requestBody:
@@ -93,6 +98,7 @@ paths:
   /admins/login:
     post:
       summary: Admin login endpoint.
+      security: []
       tags:
         - Auth (for Admins)
       requestBody:
@@ -131,8 +137,6 @@ paths:
   /admins:
     post:
       summary: Create admin.
-      security: [ { bearerAuth: [ ] } ]
-
       tags:
         - Admins
 
@@ -170,7 +174,6 @@ paths:
 
     get:
       summary: Get all admins.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Admins
@@ -203,7 +206,6 @@ paths:
         - $ref: '#/components/parameters/AdminId'
 
       summary: Get admin.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Admins
@@ -246,7 +248,6 @@ paths:
         - $ref: '#/components/parameters/AdminId'
 
       summary: Activate Admin.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Admins
@@ -291,7 +292,6 @@ paths:
         - $ref: '#/components/parameters/AdminId'
 
       summary: Block Admin.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Admins
@@ -334,7 +334,6 @@ paths:
     get:
 
       summary: Get all customers.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -368,7 +367,6 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Get customer by ID.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
