@@ -5,15 +5,13 @@ import com.codillas.loyaltycard.exception.AdminNotFoundException;
 import com.codillas.loyaltycard.mapper.AdminMapper;
 import com.codillas.loyaltycard.repository.AdminRepository;
 import com.codillas.loyaltycard.repository.entity.AdminEntity;
+import com.codillas.loyaltycard.repository.entity.Status;
+import com.codillas.loyaltycard.repository.entity.Type;
 import com.codillas.loyaltycard.service.model.Admin;
-import com.codillas.loyaltycard.service.model.Status;
-import com.codillas.loyaltycard.service.model.Type;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +24,10 @@ public class AdminServiceImpl implements AdminService {
   private AdminMapper adminMapper;
 
   @Autowired
-  public AdminServiceImpl(AdminRepository adminRepository,  AdminMapper adminMapper) {
+  public AdminServiceImpl(AdminRepository adminRepository, AdminMapper adminMapper) {
     this.adminRepository = adminRepository;
     this.adminMapper = adminMapper;
   }
-
-  private HashMap<UUID, Admin> adminHashMap = new HashMap<>();
 
   @Override
   public Admin createAdmin(String name, String phoneNumber, String email, String password) {
@@ -40,8 +36,7 @@ public class AdminServiceImpl implements AdminService {
 
     Optional<AdminEntity> optionalAdmin = adminRepository.findByEmail(email);
 
-
-    if (optionalAdmin.isPresent()){
+    if (optionalAdmin.isPresent()) {
       throw new AdminAlreadyExistsException(email);
     }
 
@@ -55,8 +50,8 @@ public class AdminServiceImpl implements AdminService {
 
     adminEntity.setCreatedAt(now);
     adminEntity.setUpdatedAt(now);
-    adminEntity.setType(com.codillas.loyaltycard.repository.entity.Type.ADMIN);
-    adminEntity.setStatus(com.codillas.loyaltycard.repository.entity.Status.ACTIVE);
+    adminEntity.setType(Type.ADMIN);
+    adminEntity.setStatus(Status.ACTIVE);
 
     AdminEntity savedAdminEntity = adminRepository.save(adminEntity);
 
@@ -68,40 +63,59 @@ public class AdminServiceImpl implements AdminService {
   @Override
   public List<Admin> getAdmins() {
 
-    return adminHashMap.values().stream().toList();
+    List<AdminEntity> adminEntityList = adminRepository.findAll();
+
+    List<Admin> adminList =
+        adminEntityList.stream().map(adminEntity -> adminMapper.toDomain(adminEntity)).toList();
+
+    return adminList;
   }
 
   @Override
   public Admin getAdmin(UUID adminId) {
-    Admin admin = adminHashMap.get(adminId);
 
-    if (admin != null) {
-      return admin;
-    } else {
+    Optional<AdminEntity> optionalAdmin = adminRepository.findById(adminId);
+
+    if (optionalAdmin.isEmpty()) {
       throw new AdminNotFoundException(adminId);
     }
-  }
 
-  @Override
-  public Admin activateAdmin(UUID adminId) {
-
-    Admin admin = adminHashMap.get(adminId);
-
-    admin.setStatus(Status.ACTIVE);
-    admin.setUpdatedAt(Instant.now());
-    adminHashMap.put(admin.getId(), admin);
+    AdminEntity adminEntity = optionalAdmin.get();
+    Admin admin = adminMapper.toDomain(adminEntity);
 
     return admin;
   }
 
   @Override
+  public Admin activateAdmin(UUID adminId) {
+
+    Optional<AdminEntity> optionalAdmin = adminRepository.findById(adminId);
+
+    if (optionalAdmin.isEmpty()) {
+      throw new AdminNotFoundException(adminId);
+    }
+
+    AdminEntity adminEntity = optionalAdmin.get();
+    adminEntity.setStatus(Status.ACTIVE);
+    AdminEntity savedAdminEntity = adminRepository.save(adminEntity);
+
+    Admin admin = adminMapper.toDomain(savedAdminEntity);
+    return admin;
+  }
+
+  @Override
   public Admin blockAdmin(UUID adminId) {
-    Admin admin = adminHashMap.get(adminId);
+    Optional<AdminEntity> optionalAdmin = adminRepository.findById(adminId);
 
-    admin.setStatus(Status.BLOCKED);
-    admin.setUpdatedAt(Instant.now());
-    adminHashMap.put(admin.getId(), admin);
+    if (optionalAdmin.isEmpty()) {
+      throw new AdminNotFoundException(adminId);
+    }
 
+    AdminEntity adminEntity = optionalAdmin.get();
+    adminEntity.setStatus(Status.BLOCKED);
+    AdminEntity savedAdminEntity = adminRepository.save(adminEntity);
+
+    Admin admin = adminMapper.toDomain(savedAdminEntity);
     return admin;
   }
 }

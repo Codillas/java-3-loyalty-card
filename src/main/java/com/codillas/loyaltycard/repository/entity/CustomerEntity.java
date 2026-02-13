@@ -11,8 +11,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "admins")
-public class AdminEntity {
+@Table(name = "customers")
+public class CustomerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,10 +33,6 @@ public class AdminEntity {
     @Column
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    @Column
-    @Enumerated(EnumType.STRING)
-    private Type type;
 
     @Column(name = "created_at")
     private Instant createdAt;
