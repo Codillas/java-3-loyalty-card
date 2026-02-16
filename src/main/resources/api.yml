@@ -8,7 +8,7 @@ servers:
   - url: http://localhost:8080
 
 security:
-  - bearerAuth: []
+  - security: [ { bearerAuth: [ ] } ]
 
 tags:
   - name: Auth (for Customer)
@@ -408,7 +408,6 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Update customer by ID.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -723,7 +722,6 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Get card by ID.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Cards
@@ -767,7 +765,6 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Activate Card.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Cards
@@ -812,7 +809,6 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Block Card.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Cards
