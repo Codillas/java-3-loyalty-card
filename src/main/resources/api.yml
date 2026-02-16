@@ -456,7 +456,6 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Activate customer.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -500,7 +499,6 @@ paths:
         - $ref: '#/components/parameters/CustomerId'
 
       summary: Block customer.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Customers
@@ -546,7 +544,6 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Create a new transaction.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Transactions
@@ -594,7 +591,6 @@ paths:
         - $ref: '#/components/parameters/CardId'
 
       summary: Get all transactions for a specific card.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Transactions
@@ -641,7 +637,6 @@ paths:
         - $ref: '#/components/parameters/TransactionId'
 
       summary: Get a specific transaction for a specific card.
-      security: [ { bearerAuth: [ ] } ]
       tags:
         - Transactions
       responses:
@@ -677,7 +672,6 @@ paths:
         - $ref: '#/components/parameters/TransactionId'
 
       summary: Cancel transaction.
-      security: [ { bearerAuth: [ ] } ]
 
       tags:
         - Transactions
