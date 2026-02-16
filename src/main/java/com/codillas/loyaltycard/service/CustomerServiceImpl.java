@@ -72,6 +72,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer getCustomer(String email) {
+        return customerRepository.findByEmail(email)
+                .map(customerMapper::toDomain)
+                .orElseThrow(() -> new CustomerNotFoundException(email));
+    }
+
+    @Override
     public Customer updateCustomer(UUID customerId, String name, String phoneNumber, String email) {
         CustomerEntity customerEntity = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException(customerId));

@@ -12,6 +12,8 @@ public interface CustomerService {
 
     Customer getCustomer(UUID customerId);
 
+    Customer getCustomer(String email);
+
     Customer updateCustomer(UUID customerId, String name, String phoneNumber, String email);
 
     Customer activateCustomer(UUID customerId);
