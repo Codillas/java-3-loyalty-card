@@ -13,6 +13,8 @@ public interface AdminService {
 
     Admin getAdmin(UUID adminId);
 
+    Admin getAdmin(String email);
+
     Admin activateAdmin(UUID adminId);
 
     Admin blockAdmin(UUID adminId);

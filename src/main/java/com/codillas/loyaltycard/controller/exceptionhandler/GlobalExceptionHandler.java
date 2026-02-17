@@ -1,8 +1,7 @@
 package com.codillas.loyaltycard.controller.exceptionhandler;
 
 import com.codillas.loyaltycard.controller.dto.ErrorDto;
-import com.codillas.loyaltycard.exception.AdminAlreadyExistsException;
-import com.codillas.loyaltycard.exception.AdminNotFoundException;
+import com.codillas.loyaltycard.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +30,57 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleCustomerNotFoundException(CustomerNotFoundException e) {
+
+        ErrorDto errorDto = new ErrorDto(e.getMessage());
+
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDto);
+    }
+
+
+    @ExceptionHandler(CustomerAlreadyExistsException.class)
+    public ResponseEntity<ErrorDto> handleCustomerAlreadyExistsException(CustomerAlreadyExistsException e) {
+
+        ErrorDto errorDto = new ErrorDto(e.getMessage());
+
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorDto> handleInvalidCredentialsException(InvalidCredentialsException e) {
+
+        ErrorDto errorDto = new ErrorDto(e.getMessage());
+
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);
+    }
+
+    @ExceptionHandler(CustomerIsBlockedException.class)
+    public ResponseEntity<ErrorDto> handleCustomerIsBlockedException(CustomerIsBlockedException e) {
+
+        ErrorDto errorDto = new ErrorDto(e.getMessage());
+
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDto);
+    }
+
+    @ExceptionHandler(AdminIsBlockedException.class)
+    public ResponseEntity<ErrorDto> handleAdminIsBlockedException(AdminIsBlockedException e) {
+
+        ErrorDto errorDto = new ErrorDto(e.getMessage());
+
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDto);
     }
 }

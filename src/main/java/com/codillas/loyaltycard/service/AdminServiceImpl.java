@@ -12,22 +12,21 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-  private AdminRepository adminRepository;
-  private AdminMapper adminMapper;
-
-  @Autowired
-  public AdminServiceImpl(AdminRepository adminRepository, AdminMapper adminMapper) {
-    this.adminRepository = adminRepository;
-    this.adminMapper = adminMapper;
-  }
+  private final AdminRepository adminRepository;
+  private final AdminMapper adminMapper;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Override
   public Admin createAdmin(String name, String phoneNumber, String email, String password) {
@@ -44,7 +43,7 @@ public class AdminServiceImpl implements AdminService {
     adminEntity.setName(name);
     adminEntity.setEmail(email);
     adminEntity.setPhoneNumber(phoneNumber);
-    adminEntity.setPassword(password);
+    adminEntity.setPassword(bCryptPasswordEncoder.encode(password));
 
     Instant now = Instant.now();
 
@@ -78,6 +77,20 @@ public class AdminServiceImpl implements AdminService {
 
     if (optionalAdmin.isEmpty()) {
       throw new AdminNotFoundException(adminId);
+    }
+
+    AdminEntity adminEntity = optionalAdmin.get();
+    Admin admin = adminMapper.toDomain(adminEntity);
+
+    return admin;
+  }
+
+  @Override
+  public Admin getAdmin(String email) {
+    Optional<AdminEntity> optionalAdmin = adminRepository.findByEmail(email);
+
+    if (optionalAdmin.isEmpty()) {
+      throw new AdminNotFoundException(email);
     }
 
     AdminEntity adminEntity = optionalAdmin.get();
