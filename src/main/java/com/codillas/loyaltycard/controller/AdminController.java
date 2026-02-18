@@ -7,9 +7,13 @@ import com.codillas.loyaltycard.service.AuthService;
 import com.codillas.loyaltycard.service.model.Admin;
 import java.util.List;
 import java.util.UUID;
+
+import com.codillas.loyaltycard.service.model.Type;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +25,7 @@ public class AdminController {
   private final AdminMapper adminMapper;
   private final AuthService authService;
 
+  @Secured("ADMIN")
   @PostMapping("/login")
   public ResponseEntity<TokenResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
 
@@ -30,6 +35,7 @@ public class AdminController {
     return ResponseEntity.ok(new TokenResponseDto(token));
   }
 
+  @Secured("SUPER_ADMIN")
   @PostMapping
   public ResponseEntity<AdminDto> createAdmin(@RequestBody SignUpRequestDto signUpRequestDto) {
 
@@ -45,6 +51,7 @@ public class AdminController {
     return ResponseEntity.status(HttpStatus.CREATED).body(adminDto);
   }
 
+  @Secured("SUPER_ADMIN")
   @GetMapping
   public ResponseEntity<List<AdminDto>> getAdmins() {
 
@@ -55,6 +62,7 @@ public class AdminController {
     return ResponseEntity.ok().body(adminDtoList);
   }
 
+  @PreAuthorize("hasAuthority('SUPER_ADMIN') or #adminId.toString() == authentication.name")
   @GetMapping("/{adminId}")
   public ResponseEntity<AdminDto> getAdmin(@PathVariable UUID adminId) {
 
@@ -65,6 +73,7 @@ public class AdminController {
     return ResponseEntity.ok().body(adminDto);
   }
 
+  @Secured("SUPER_ADMIN")
   @PutMapping("/{adminId}/activate")
   public ResponseEntity<AdminDto> activateAdmin(@PathVariable UUID adminId) {
 
@@ -75,6 +84,7 @@ public class AdminController {
     return ResponseEntity.ok().body(adminDto);
   }
 
+  @Secured("SUPER_ADMIN")
   @PutMapping("/{adminId}/block")
   public ResponseEntity<AdminDto> blockAdmin(@PathVariable UUID adminId) {
 

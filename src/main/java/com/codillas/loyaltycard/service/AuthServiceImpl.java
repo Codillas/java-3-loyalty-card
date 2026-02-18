@@ -66,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
       throw new AdminIsBlockedException();
     }
 
-    String token = tokenService.createToken(admin.getId().toString(), Type.ADMIN);
+    String token = tokenService.createToken(admin.getId().toString(), admin.getType());
 
     return token;
   }

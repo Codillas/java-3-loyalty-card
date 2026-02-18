@@ -36,6 +36,7 @@ public class AdminMapper {
     admin.setPhoneNumber(entity.getPhoneNumber());
     admin.setType(Type.valueOf(entity.getType().name()));
     admin.setStatus(Status.valueOf(entity.getStatus().name()));
+    admin.setPassword(entity.getPassword());
 
     return admin;
   }
