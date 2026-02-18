@@ -42,7 +42,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDto);
     }
 
-
     @ExceptionHandler(CustomerAlreadyExistsException.class)
     public ResponseEntity<ErrorDto> handleCustomerAlreadyExistsException(CustomerAlreadyExistsException e) {
 
@@ -52,7 +51,6 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
-
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ErrorDto> handleInvalidCredentialsException(InvalidCredentialsException e) {
@@ -82,5 +80,35 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDto);
+    }
+
+    @ExceptionHandler(CardNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleCardNotFoundException(CardNotFoundException e) {
+
+        ErrorDto errorDto = new ErrorDto(e.getMessage());
+
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDto);
+    }
+
+    @ExceptionHandler(CardIsBlockedException.class)
+    public ResponseEntity<ErrorDto> handleCardIsBlockedException(CardIsBlockedException e) {
+
+        ErrorDto errorDto = new ErrorDto(e.getMessage());
+
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDto);
+    }
+
+    @ExceptionHandler(TransactionNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleTransactionNotFoundException(TransactionNotFoundException e) {
+
+        ErrorDto errorDto = new ErrorDto(e.getMessage());
+
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDto);
     }
 }

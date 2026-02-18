@@ -1031,6 +1031,9 @@ components:
           format: date-time
           example: 2021-09-20T13:41:22Z
           readOnly: true
+        balance:
+          type: number
+          example: 100
     # ======
     Admin:
       type: object

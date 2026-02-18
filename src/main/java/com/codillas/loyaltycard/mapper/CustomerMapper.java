@@ -15,11 +15,13 @@ public class CustomerMapper {
                 customer.getPhoneNumber(),
                 customer.getEmail(),
                 customer.getStatus(),
+                customer.getBalance(),
                 customer.getCreatedAt(),
                 customer.getUpdatedAt());
     }
 
     public Customer toDomain(CustomerEntity entity) {
+        Integer balance = entity.getCard() != null ? entity.getCard().getBalance() : null;
         return new Customer(
                 entity.getId(),
                 entity.getName(),
@@ -27,6 +29,7 @@ public class CustomerMapper {
                 entity.getEmail(),
                 entity.getPassword(),
                 com.codillas.loyaltycard.service.model.Status.valueOf(entity.getStatus().name()),
+                balance,
                 entity.getCreatedAt(),
                 entity.getUpdatedAt());
     }
