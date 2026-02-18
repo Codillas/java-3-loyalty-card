@@ -55,20 +55,4 @@ public class AdminMapper {
 
     return dto;
   }
-
-  public AdminEntity toEntity(Admin admin) {
-
-    AdminEntity entity = new AdminEntity();
-    entity.setId(admin.getId());
-    entity.setName(admin.getName());
-    entity.setEmail(admin.getEmail());
-    entity.setCreatedAt(admin.getCreatedAt());
-    entity.setUpdatedAt(admin.getUpdatedAt());
-    entity.setPhoneNumber(admin.getPhoneNumber());
-    entity.setType(com.codillas.loyaltycard.repository.entity.Type.valueOf(admin.getType().name()));
-    entity.setStatus(
-        com.codillas.loyaltycard.repository.entity.Status.valueOf(admin.getStatus().name()));
-
-    return entity;
-  }
 }

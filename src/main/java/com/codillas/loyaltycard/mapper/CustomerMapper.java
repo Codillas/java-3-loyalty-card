@@ -33,17 +33,4 @@ public class CustomerMapper {
                 entity.getCreatedAt(),
                 entity.getUpdatedAt());
     }
-
-    public CustomerEntity toEntity(Customer customer) {
-        CustomerEntity entity = new CustomerEntity();
-        entity.setId(customer.getId());
-        entity.setName(customer.getName());
-        entity.setPhoneNumber(customer.getPhoneNumber());
-        entity.setEmail(customer.getEmail());
-        entity.setPassword(customer.getPassword());
-        entity.setStatus(com.codillas.loyaltycard.repository.entity.Status.valueOf(customer.getStatus().name()));
-        entity.setCreatedAt(customer.getCreatedAt());
-        entity.setUpdatedAt(customer.getUpdatedAt());
-        return entity;
-    }
 }
