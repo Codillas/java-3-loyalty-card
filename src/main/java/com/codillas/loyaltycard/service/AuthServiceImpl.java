@@ -17,15 +17,18 @@ public class AuthServiceImpl implements AuthService {
 
   private final CustomerService customerService;
   private final AdminService adminService;
+  private final CardService cardService;
   private final BCryptPasswordEncoder bCryptpasswordEncoder;
   private final TokenService tokenService;
 
   @Override
   public String signUp(String name, String phoneNumber, String email, String password) {
 
-    Customer customer =
-        customerService.createCustomer(
-            name, phoneNumber, email, bCryptpasswordEncoder.encode(password));
+    Customer customer = customerService.createCustomer(
+        name, phoneNumber, email, bCryptpasswordEncoder.encode(password));
+
+    // Auto-create a loyalty card for the new customer
+    cardService.createCard(customer.getId());
 
     String token = tokenService.createToken(customer.getId().toString(), Type.CUSTOMER);
 

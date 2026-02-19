@@ -10,14 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDto {
+public class CardDto {
 
     private UUID id;
-    private String name;
-    private String phoneNumber;
-    private String email;
+    private UUID customerId;
+    private int balance;
     private Status status;
-    private Integer balance;
     private Instant createdAt;
     private Instant updatedAt;
 }

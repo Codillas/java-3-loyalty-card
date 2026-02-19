@@ -11,24 +11,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "customers")
-public class CustomerEntity {
+@Table(name = "cards")
+public class CardEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column
-    private String name;
-
-    @Column(name = "phone_number")
-    private String phoneNumber;
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customer;
 
     @Column
-    private String email;
-
-    @Column
-    private String password;
+    private int balance;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -39,8 +34,5 @@ public class CustomerEntity {
 
     @Column(name = "updated_at")
     private Instant updatedAt;
-
-    @OneToOne(mappedBy = "customer")
-    private CardEntity card;
 
 }

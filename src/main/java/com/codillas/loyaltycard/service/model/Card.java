@@ -1,6 +1,5 @@
-package com.codillas.loyaltycard.controller.dto;
+package com.codillas.loyaltycard.service.model;
 
-import com.codillas.loyaltycard.service.model.Status;
 import java.time.Instant;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -10,14 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDto {
+public class Card {
 
     private UUID id;
-    private String name;
-    private String phoneNumber;
-    private String email;
+    private UUID customerId;
+    private int balance;
     private Status status;
-    private Integer balance;
     private Instant createdAt;
     private Instant updatedAt;
 }

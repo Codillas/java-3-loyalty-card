@@ -11,36 +11,37 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "customers")
-public class CustomerEntity {
+@Table(name = "transactions")
+public class TransactionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column
-    private String name;
+    @Column(name = "card_id")
+    private UUID cardId;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @Column
-    private String email;
-
-    @Column
-    private String password;
+    @Column(name = "admin_id")
+    private UUID adminId;
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Direction direction;
+
+    @Column
+    private int amount;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status;
+
+    @Column
+    private String note;
 
     @Column(name = "created_at")
     private Instant createdAt;
 
     @Column(name = "updated_at")
     private Instant updatedAt;
-
-    @OneToOne(mappedBy = "customer")
-    private CardEntity card;
 
 }
