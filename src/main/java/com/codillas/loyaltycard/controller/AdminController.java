@@ -25,7 +25,6 @@ public class AdminController {
   private final AdminMapper adminMapper;
   private final AuthService authService;
 
-  @Secured("ADMIN")
   @PostMapping("/login")
   public ResponseEntity<TokenResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
 
