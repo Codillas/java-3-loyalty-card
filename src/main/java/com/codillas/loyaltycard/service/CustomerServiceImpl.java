@@ -32,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         log.info("Attempting to create a customer with email {}", email);
 
-        Optional<CustomerEntity> optionalCustomer = customerRepository.findByEmail(email);
+        Optional<CustomerEntity> optionalCustomer = customerRepository.findByEmailIgnoreCase(email);
 
         if (optionalCustomer.isPresent()) {
             throw new CustomerAlreadyExistsException(email);
@@ -73,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer getCustomer(String email) {
-        return customerRepository.findByEmail(email)
+        return customerRepository.findByEmailIgnoreCase(email)
                 .map(customerMapper::toDomain)
                 .orElseThrow(() -> new CustomerNotFoundException(email));
     }

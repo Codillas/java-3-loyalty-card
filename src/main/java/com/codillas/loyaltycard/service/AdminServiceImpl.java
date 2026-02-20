@@ -15,7 +15,6 @@ import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
 
     log.info("Attempting to create an admin with email {}", email);
 
-    Optional<AdminEntity> optionalAdmin = adminRepository.findByEmail(email);
+    Optional<AdminEntity> optionalAdmin = adminRepository.findByEmailIgnoreCase(email);
 
     if (optionalAdmin.isPresent()) {
       throw new AdminAlreadyExistsException(email);
@@ -87,7 +86,7 @@ public class AdminServiceImpl implements AdminService {
 
   @Override
   public Admin getAdmin(String email) {
-    Optional<AdminEntity> optionalAdmin = adminRepository.findByEmail(email);
+    Optional<AdminEntity> optionalAdmin = adminRepository.findByEmailIgnoreCase(email);
 
     if (optionalAdmin.isEmpty()) {
       throw new AdminNotFoundException(email);

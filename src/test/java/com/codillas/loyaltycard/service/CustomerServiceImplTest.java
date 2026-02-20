@@ -43,7 +43,7 @@ class CustomerServiceImplTest {
         CustomerEntity savedEntity = buildEntity(email, Status.ACTIVE);
         Customer expectedCustomer = buildCustomer(email);
 
-        when(customerRepository.findByEmail(email)).thenReturn(Optional.empty());
+        when(customerRepository.findByEmailIgnoreCase(email)).thenReturn(Optional.empty());
         when(customerRepository.save(any(CustomerEntity.class))).thenReturn(savedEntity);
         when(customerMapper.toDomain(savedEntity)).thenReturn(expectedCustomer);
 
@@ -52,7 +52,7 @@ class CustomerServiceImplTest {
 
         // then
         assertThat(result).isEqualTo(expectedCustomer);
-        verify(customerRepository).findByEmail(email);
+        verify(customerRepository).findByEmailIgnoreCase(email);
         verify(customerRepository).save(any(CustomerEntity.class));
     }
 
@@ -60,7 +60,7 @@ class CustomerServiceImplTest {
     void createCustomer_shouldThrowCustomerAlreadyExistsException_whenEmailIsTaken() {
         // given
         String email = "existing@example.com";
-        when(customerRepository.findByEmail(email)).thenReturn(Optional.of(buildEntity(email, Status.ACTIVE)));
+        when(customerRepository.findByEmailIgnoreCase(email)).thenReturn(Optional.of(buildEntity(email, Status.ACTIVE)));
 
         // when / then
         assertThatThrownBy(() -> customerService.createCustomer("John", "123", email, "pass"))
@@ -142,7 +142,7 @@ class CustomerServiceImplTest {
         CustomerEntity entity = buildEntity(email, Status.ACTIVE);
         Customer expected = buildCustomer(email);
 
-        when(customerRepository.findByEmail(email)).thenReturn(Optional.of(entity));
+        when(customerRepository.findByEmailIgnoreCase(email)).thenReturn(Optional.of(entity));
         when(customerMapper.toDomain(entity)).thenReturn(expected);
 
         // when
@@ -156,7 +156,7 @@ class CustomerServiceImplTest {
     void getCustomerByEmail_shouldThrowCustomerNotFoundException_whenEmailNotFound() {
         // given
         String email = "ghost@test.com";
-        when(customerRepository.findByEmail(email)).thenReturn(Optional.empty());
+        when(customerRepository.findByEmailIgnoreCase(email)).thenReturn(Optional.empty());
 
         // when / then
         assertThatThrownBy(() -> customerService.getCustomer(email))
