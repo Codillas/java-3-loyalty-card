@@ -1034,6 +1034,11 @@ components:
         balance:
           type: number
           example: 100
+        card_id:
+          type: string
+          format: uuid
+          example: 38ca31a9-a336-4087-ac97-d1ed40a2778b
+          readOnly: true
     # ======
     Admin:
       type: object

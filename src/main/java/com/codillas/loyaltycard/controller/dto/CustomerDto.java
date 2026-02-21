@@ -18,6 +18,7 @@ public class CustomerDto {
     private String email;
     private Status status;
     private Integer balance;
+    private UUID cardId;
     private Instant createdAt;
     private Instant updatedAt;
 }
