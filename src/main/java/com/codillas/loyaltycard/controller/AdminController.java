@@ -28,8 +28,7 @@ public class AdminController {
   @PostMapping("/login")
   public ResponseEntity<TokenResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
 
-    String token =
-        authService.loginAdmin(loginRequestDto.getEmail(), loginRequestDto.getPassword());
+    String token = authService.loginAdmin(loginRequestDto.getEmail(), loginRequestDto.getPassword());
 
     return ResponseEntity.ok(new TokenResponseDto(token));
   }
@@ -38,12 +37,11 @@ public class AdminController {
   @PostMapping
   public ResponseEntity<AdminDto> createAdmin(@RequestBody SignUpRequestDto signUpRequestDto) {
 
-    Admin admin =
-        adminService.createAdmin(
-            signUpRequestDto.getName(),
-            signUpRequestDto.getPhoneNumber(),
-            signUpRequestDto.getEmail(),
-            signUpRequestDto.getPassword());
+    Admin admin = adminService.createAdmin(
+        signUpRequestDto.getName(),
+        signUpRequestDto.getPhoneNumber(),
+        signUpRequestDto.getEmail(),
+        signUpRequestDto.getPassword());
 
     AdminDto adminDto = adminMapper.toDto(admin);
 
@@ -92,5 +90,16 @@ public class AdminController {
     AdminDto adminDto = adminMapper.toDto(admin);
 
     return ResponseEntity.ok().body(adminDto);
+  }
+
+  @PreAuthorize("hasAuthority('SUPER_ADMIN') or #adminId.toString() == authentication.name")
+  @PutMapping("/{adminId}")
+  public ResponseEntity<AdminDto> updateAdmin(
+      @PathVariable UUID adminId, @RequestBody AdminDto adminDto) {
+
+    Admin admin = adminService.updateAdmin(
+        adminId, adminDto.getName(), adminDto.getPhoneNumber(), adminDto.getEmail());
+
+    return ResponseEntity.ok().body(adminMapper.toDto(admin));
   }
 }

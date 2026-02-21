@@ -130,4 +130,23 @@ public class AdminServiceImpl implements AdminService {
     Admin admin = adminMapper.toDomain(savedAdminEntity);
     return admin;
   }
+
+  @Override
+  public Admin updateAdmin(UUID adminId, String name, String phoneNumber, String email) {
+    Optional<AdminEntity> optionalAdmin = adminRepository.findById(adminId);
+
+    if (optionalAdmin.isEmpty()) {
+      throw new AdminNotFoundException(adminId);
+    }
+
+    AdminEntity adminEntity = optionalAdmin.get();
+    adminEntity.setName(name);
+    adminEntity.setPhoneNumber(phoneNumber);
+    adminEntity.setEmail(email);
+    adminEntity.setUpdatedAt(Instant.now());
+
+    AdminEntity savedAdminEntity = adminRepository.save(adminEntity);
+
+    return adminMapper.toDomain(savedAdminEntity);
+  }
 }

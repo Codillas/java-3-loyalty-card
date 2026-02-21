@@ -18,5 +18,7 @@ public interface AdminService {
     Admin activateAdmin(UUID adminId);
 
     Admin blockAdmin(UUID adminId);
+  
+    Admin updateAdmin(UUID adminId, String name, String phoneNumber, String email);
 
 }
